@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,7 +21,7 @@ namespace CSTutorials
         // basic thread implementation
         private void button1_Click(object sender, EventArgs e)
         {
-            Thread t = new Thread(() => System.Diagnostics.Debug.WriteLine("Hello world from a thread."));
+            Thread t = new Thread(() => Debug.WriteLine("Hello world from a thread."));
             t.Start();
             // wait for it to end            
             t.Join();
@@ -35,9 +36,36 @@ namespace CSTutorials
             // poll a thread every 100 ms 
             while(!t.Join(100))
             {
-                System.Diagnostics.Debug.WriteLine(tc.Msg);
+                Debug.WriteLine(tc.Msg);
             }
-            System.Diagnostics.Debug.WriteLine(tc.Msg);
+            Debug.WriteLine(tc.Msg);
+        }
+
+        delegate void myAction(int s, int t);
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Action<int, int> add = (s, t) => Debug.WriteLine((s + t).ToString());
+            // Actions don't return a value, Func does
+            Action<int, int> mul = (s, t) => Debug.WriteLine((s * t).ToString());
+            Action<int, int> x;
+            x = add;
+            x += mul;
+            x(1,2);
+
+            myAction y = (s,t) => Debug.WriteLine((s - t).ToString()); ;
+            y(1, 2);
+
+        }
+
+        [Conditional("DEBUG")]
+        private void testing_attrib()
+        {
+            Debug.WriteLine("I only run in DEBUG build");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            testing_attrib();
         }
     }
 
