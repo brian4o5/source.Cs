@@ -82,7 +82,11 @@ namespace CSTutorials
 
         public void Execute()
         {
-            Thread.Sleep(1000);
+            double dv = 10 / 4;
+            int iv = 10 / 4;
+            var rv = dv + iv;
+            System.Diagnostics.Debug.WriteLine(rv + " " + rv.GetType());
+           Thread.Sleep(1000);
             Msg = "end";
         }
     }
